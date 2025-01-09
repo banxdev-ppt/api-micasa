@@ -1,13 +1,13 @@
-const bcrypt = require("bcrypt");
-const path = require("path");
+const bcrypt = require('bcrypt');
+const path = require('path');
 
-const formatFilename = async (originalFilename, type, userid) => {
+async function formatFilename(originalFilename, type, userid) {
   const fileExtension = path.extname(originalFilename);
   switch (type) {
-    case "profiles": {
+    case 'profiles': {
       const hash_orgFilename = await bcrypt.hash(originalFilename, 10);
-      const filName = hash_orgFilename.replace(/[^a-zA-Z0-9]/g, "_");
-      const date = new Date().toISOString().split("T")[0];
+      const filName = hash_orgFilename.replace(/[^a-zA-Z0-9]/g, '_');
+      const date = new Date().toISOString().split('T')[0];
       return `${date}_${filName}${fileExtension}`;
     }
     // case "products": {
@@ -17,6 +17,6 @@ const formatFilename = async (originalFilename, type, userid) => {
     default:
       break;
   }
-};
+}
 
 module.exports = { formatFilename };

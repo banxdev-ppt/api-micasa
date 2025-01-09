@@ -1,0 +1,144 @@
+openapi: 3.0.0
+info:
+  title: Micasa API Swagger
+  description:
+  version: 1.0.0
+servers:
+  - url: http://localhost:3001
+paths:
+  /auth/login:
+    post:
+      summary: 'Login a user'
+      description: 'Authenticate a user by email and password.'
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: 'johndoe@example.com'
+                password:
+                  type: string
+                  example: 'password123'
+      responses:
+        200:
+          description: 'Login successful'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 200
+                  taskStatus:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'เข้าสู่ระบบสำเร็จ'
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 1
+                          email:
+                            type: string
+                            example: 'johndoe@example.com'
+                          fName:
+                            type: string
+                            example: 'John'
+                          lName:
+                            type: string
+                            example: 'Doe'
+                          gender:
+                            type: string
+                            example: 'Male'
+                          roleId:
+                            type: integer
+                            example: 2
+                          profile:
+                            type: string
+                            example: 'http://localhost:3001/profiles/johndoe.jpg'
+                          created_date:
+                            type: string
+                            example: '2023-01-01'
+                      token:
+                        type: string
+                        example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+  /auth/register:
+    post:
+      summary: 'Register a new user'
+      description: 'Register a new user by providing required information.'
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - fName
+                - lName
+                - gender
+                - roleId
+                - email
+                - password
+              properties:
+                fName:
+                  type: string
+                  example: 'Jane'
+                lName:
+                  type: string
+                  example: 'Doe'
+                gender:
+                  type: string
+                  example: 'Female'
+                roleId:
+                  type: integer
+                  example: 2
+                email:
+                  type: string
+                  example: 'janedoe@example.com'
+                password:
+                  type: string
+                  example: 'password123'
+                usrImg:
+                  type: string
+                  format: binary
+      responses:
+        201:
+          description: 'User successfully registered'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 201
+                  taskStatus:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: 'สมัครสมาชิกสำเร็จ'
+                  data:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                        example: 'janedoe@example.com'
+                      password:
+                        type: string
+                        example: 'password123'

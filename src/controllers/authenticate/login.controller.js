@@ -8,11 +8,7 @@ async function loginController(req, res) {
     const [row] = await db.promise().query('SELECT * FROM users WHERE email = ?', [email]);
 
     if (row.length === 0) {
-      return res.status(500).json({
-        statusCode: 500,
-        taskStatus: false,
-        message: 'ไม่พบบัญชีผู้ใช้งาน',
-      });
+      return res.status(200).json({ statusCode: 200, taskStatus: false, message: 'ไม่พบบัญชีผู้ใช้งาน' });
     }
 
     const data = row[0];
@@ -35,20 +31,11 @@ async function loginController(req, res) {
     const check_password = await bcrypt.compare(password, hash);
 
     if (!check_password) {
-      return res.status(500).json({
-        statusCode: 500,
-        taskStatus: false,
-        message: 'รหัสผ่านไม่ถูกต้อง',
-      });
+      return res.status(200).json({ statusCode: 200, taskStatus: false, message: 'รหัสผ่านไม่ถูกต้อง' });
     }
 
     const token = jwt.sign(data, process.env.SECRET_KEY, { expiresIn: '1d' });
-    return res.status(200).json({
-      statusCode: 200,
-      taskStatus: true,
-      message: 'สำเร็จ',
-      data: { user, token },
-    });
+    return res.status(200).json({ statusCode: 200, taskStatus: true, message: 'เข้าสู่ระบบสำเร็จ', data: { user, token } });
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ statusCode: 500, taskStatus: false, message: error.message });

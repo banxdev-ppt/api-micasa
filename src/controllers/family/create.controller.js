@@ -28,34 +28,17 @@ const generateFamCode = async (db) => {
   return `${yearLastDigit}${randomLetters}${formattedRunningNumber}`;
 };
 
-async function createFamilyController(req, res) {
+exports.createFamilyController = async (req, res) => {
   try {
-    const { famName, nickName, usrId } = req.body;
+    console.log(req.body);
+    const { usrId, famName, nickName, roleId, usrImg } = req.body;
     const file = req.file;
 
-    if (!famName || !nickName || !usrId) {
+    if (!famName || !nickName || !usrId || !roleId || !usrImg) {
       return res
         .status(400)
         .json({ statusCode: 400, taskStatus: false, message: "ไม่พบข้อมูล" });
     }
-
-    console.log(usrId);
-    const [userRows] = await db
-      .promise()
-      .query("SELECT id, nickName, roleId, usrImg FROM users WHERE id = ?", [
-        usrId,
-      ]);
-
-    console.log(userRows);
-    if (userRows.length === 0) {
-      return res.status(404).json({
-        statusCode: 404,
-        taskStatus: false,
-        message: "ไม่พบผู้ใช้งาน",
-      });
-    }
-
-    const userData = userRows[0];
 
     const [existingFamName] = await db
       .promise()
@@ -85,17 +68,14 @@ async function createFamilyController(req, res) {
     }
 
     const famCode = await generateFamCode(db);
+    const userData = JSON.stringify([
+      { id: usrId, roleId: roleId, nickName: nickName, usrImg: usrImg },
+    ]);
 
-    const insert =
-      "INSERT INTO families (famName, famCode, famProfile, usrId, famMember) VALUES(?, ?, ?, ?, ?)";
-    const values = [
-      famName,
-      famCode,
-      profile,
-      usrId,
-      JSON.stringify([userData]),
-    ];
-    const [result] = await db.promise().query(insert, values);
+    const query =
+      "INSERT INTO families (famName, famCode, famProfile, usrId, famMember) VALUES (?, ?, ?, ?, ?)";
+    const values = [famName, famCode, profile, usrId, userData];
+    const [result] = await db.promise().query(query, values);
 
     if (result.affectedRows === 0) {
       return res.status(500).json({
@@ -105,16 +85,21 @@ async function createFamilyController(req, res) {
       });
     }
 
-    const famId = result.insertId;
-
-    await db
+    const [queryUpdate] = await db
       .promise()
-      .query(
-        "UPDATE users SET nickName = ?, famCode = ?, famId = ? WHERE id = ?",
-        [userData.nickName, famCode, famId, usrId]
-      );
+      .query("UPDATE users SET nickName = ?, famCode = ? WHERE id = ?", [
+        nickName,
+        famCode,
+        usrId,
+      ]);
 
-    const data = { famId, famName, famCode, usrId, userData };
+    if (queryUpdate.affectedRows === 0) {
+      return res.status(500).json({
+        statusCode: 500,
+        taskStatus: false,
+        message: "อัพเดตข้อมูลไม่สำเร็จ",
+      });
+    }
 
     if (result && file && profile) {
       const upload_state = await uploadFile("families", fileName, file.buffer);
@@ -130,24 +115,20 @@ async function createFamilyController(req, res) {
         statusCode: 201,
         taskStatus: true,
         message: "สร้างครอบครัวสำเร็จ",
-        data,
+        data: { famCode },
       });
     } else if (result) {
       return res.status(201).json({
         statusCode: 201,
         taskStatus: true,
         message: "สร้างครอบครัวสำเร็จ",
-        data,
+        data: { famCode },
       });
     }
-
-    console.log(user, userData, famName, famCode, nickName);
   } catch (error) {
     console.error("Error:", error);
     res
       .status(500)
       .json({ statusCode: 500, taskStatus: false, message: error.message });
   }
-}
-
-module.exports = { createFamilyController };
+};

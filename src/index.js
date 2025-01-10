@@ -21,6 +21,7 @@ app.use(configCors);
 //** routes */
 // uploads
 app.use("/profiles", express.static(path.join(__dirname, "uploads/profiles")));
+app.use("/families", express.static(path.join(__dirname, "uploads/families")));
 
 // routers
 app.use("/api/swagger", swaggerUi.serve, swaggerSetup);

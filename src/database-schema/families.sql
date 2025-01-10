@@ -1,0 +1,9 @@
+CREATE TABLE families (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    usrId INT NOT NULL,
+    famName VARCHAR(255) NOT NULL,
+    famCode VARCHAR(255) UNIQUE NOT NULL,
+    famProfile TEXT NULL,
+    famMember JSON NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

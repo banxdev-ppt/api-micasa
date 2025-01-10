@@ -1,13 +1,14 @@
 CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    fName VARCHAR(255) NOT NULL,
-    lName VARCHAR(255) NOT NULL,
-    gender INT NOT NULL,
-    roleId INT NOT NULL,
-    famCode VARCHAR(255) NOT NULL,
-    nickname VARCHAR(255) NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
+    famId INT NULL,
+    famCode VARCHAR(255) NULL,
+    fName VARCHAR(255) NOT NULL,
+    lName VARCHAR(255) NOT NULL,
+    nickName VARCHAR(255) NULL,
+    gender INT NOT NULL,
+    roleId INT NOT NULL,
     usrImg TEXT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

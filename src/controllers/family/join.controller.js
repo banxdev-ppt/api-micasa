@@ -60,7 +60,7 @@ exports.joinFamilyController = async (req, res) => {
     return res.status(201).json({
       statusCode: 201,
       taskStatus: true,
-      message: "เข้สร่วมครอบครัวสำเร็จ",
+      message: "เข้าร่วมครอบครัวสำเร็จ",
       data: { famCode },
     });
   } catch (error) {

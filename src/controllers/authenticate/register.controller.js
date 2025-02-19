@@ -3,7 +3,7 @@ const { uploadFile } = require("../../helper/uploadFile");
 const path = require("path");
 const fs = require("fs");
 const { db } = require("../../config/database");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 async function registerController(req, res) {
   try {

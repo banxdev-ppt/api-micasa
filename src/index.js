@@ -14,6 +14,11 @@ const { swaggerSetup } = require("./config/swagger/swagger.js");
 const app = express();
 dotenv.config();
 
+app.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-store");
+  next();
+});
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(configCors);
@@ -30,7 +35,7 @@ app.use("/family", familyRoute);
 
 app.get("/", (req, res) => res.send("server is running!"));
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT;
 db.getConnection((err, connection) => {
   if (err) {
     console.error("Failed to connect to the database:", err);
@@ -38,8 +43,6 @@ db.getConnection((err, connection) => {
   } else {
     console.log("Database connected successfully");
     connection.release();
-    app.listen(port, () =>
-      console.log(`Server is running on http://localhost:${port}`)
-    );
+    app.listen(port);
   }
 });

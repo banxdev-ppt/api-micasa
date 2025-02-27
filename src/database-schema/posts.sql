@@ -1,0 +1,10 @@
+CREATE TABLE posts (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    post_type VARCHAR(255) NOT NULL,
+    post_desc TEXT NOT NULL,
+    post_images JSON NULL,
+    post_likes JSON NULL,
+    post_comments JSON NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

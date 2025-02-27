@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { db } = require("../../config/database");
 
-async function loginController(req, res) {
+exports.loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
     const [row] = await db
@@ -61,6 +61,4 @@ async function loginController(req, res) {
       .status(500)
       .json({ statusCode: 500, taskStatus: false, message: error.message });
   }
-}
-
-module.exports = { loginController };
+};

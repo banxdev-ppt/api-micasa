@@ -5,7 +5,7 @@ const fs = require("fs");
 const { db } = require("../../config/database");
 const bcrypt = require("bcrypt");
 
-async function registerController(req, res) {
+exports.registerController = async (req, res) => {
   try {
     const { fName, lName, gender, roleId, email, password } = req.body;
     const file = req.file;
@@ -101,6 +101,4 @@ async function registerController(req, res) {
       .status(500)
       .json({ statusCode: 500, taskStatus: false, message: error.message });
   }
-}
-
-module.exports = { registerController };
+};

@@ -7,10 +7,10 @@ const { uploadFile } = require("../../helper/uploadFile");
 exports.CreatePostController = async (req, res) => {
   try {
     console.log(req.body);
-    const { user_id, post_type, post_desc } = req.body;
+    const { user_id, user_name, user_profile, post_type, post_desc } = req.body;
     const file = req.file;
 
-    if (!user_id || !post_type) {
+    if (!user_id || !user_name || !user_profile || !post_type) {
       return res
         .status(400)
         .json({ statusCode: 400, taskStatus: false, message: "ไม่พบข้อมูล" });
@@ -31,13 +31,18 @@ exports.CreatePostController = async (req, res) => {
       }
     }
 
-    const imgArray = JSON.stringify([{ post_images: postImg }]);
+    const userData = JSON.stringify({
+      id: user_id,
+      user_name: user_name,
+      user_profile: user_profile,
+    });
+    const imgArray = JSON.stringify([{ images: postImg }]);
     const query =
-      "INSERT INTO posts (user_id, post_type, post_desc, post_images) VALUES (?, ?, ?, ?)";
-    const values = [user_id, post_type, post_desc, imgArray];
+      "INSERT INTO posts (user, post_type, post_desc, post_images) VALUES (?, ?, ?, ?)";
+    const values = [userData, post_type, post_desc, imgArray];
     const [result] = await db.promise().query(query, values);
 
-    const data = { user_id, post_type, post_desc, postImg };
+    const data = { userData, post_type, post_desc, imgArray };
 
     if (result && file && postImg) {
       const upload_state = await uploadFile("posts", fileName, file.buffer);

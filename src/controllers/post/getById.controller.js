@@ -5,7 +5,10 @@ exports.GetByIdController = async (req, res) => {
     const { user_id } = req.params;
     const [rows] = await db
       .promise()
-      .query("SELECT * FROM posts WHERE user_id = ?", [user_id]);
+      .query(
+        "SELECT * FROM posts WHERE JSON_UNQUOTE(JSON_EXTRACT(user, '$.id')) = ? ORDER BY created_at DESC",
+        [user_id]
+      );
 
     if (rows.length === 0) {
       return res.status(200).json({
@@ -19,11 +22,15 @@ exports.GetByIdController = async (req, res) => {
 
     const posts = rows.map((data) => ({
       id: data.id,
+      user: JSON.parse(data.user),
       post_type: data.post_type,
       post_desc: data.post_desc,
       post_images: data.post_images
-        ? `${baseUrl}/posts/${data.post_images}`
-        : null,
+        ? JSON.parse(data.post_images).map((img) => ({
+            images: `${baseUrl}/posts/${img.images}`,
+          }))
+        : [],
+      post_likes: data.post_likes ? JSON.parse(data.post_likes) : [],
       created_at: data.created_at,
     }));
 

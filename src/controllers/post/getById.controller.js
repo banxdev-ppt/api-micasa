@@ -10,7 +10,7 @@ exports.GetByIdController = async (req, res) => {
         [user_id]
       );
 
-    if (rows.length === 0) {
+    if (!rows || rows.length === 0) {
       return res.status(200).json({
         statusCode: 200,
         taskStatus: false,
@@ -31,6 +31,7 @@ exports.GetByIdController = async (req, res) => {
           }))
         : [],
       post_likes: data.post_likes ? JSON.parse(data.post_likes) : [],
+      post_comments: data.post_comments ? JSON.parse(data.post_comments) : [],
       created_at: data.created_at,
     }));
 

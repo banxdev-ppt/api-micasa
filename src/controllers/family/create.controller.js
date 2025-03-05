@@ -30,7 +30,6 @@ const generateFamCode = async (db) => {
 
 exports.createFamilyController = async (req, res) => {
   try {
-    console.log(req.body);
     const { usrId, famName, nickName, roleId, usrImg } = req.body;
     const file = req.file;
 

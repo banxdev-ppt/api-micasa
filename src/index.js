@@ -8,6 +8,7 @@ const { db } = require("./config/database");
 const authRoute = require("./routers/authRoute");
 const familyRoute = require("./routers/familyRoute.js");
 const postRoute = require("./routers/postRoute.js");
+const menuRoute = require("./routers/menuRoute.js");
 
 const swaggerUi = require("swagger-ui-express");
 const { swaggerSetup } = require("./config/swagger/swagger.js");
@@ -29,12 +30,14 @@ app.use(configCors);
 app.use("/profiles", express.static(path.join(__dirname, "uploads/profiles")));
 app.use("/families", express.static(path.join(__dirname, "uploads/families")));
 app.use("/posts", express.static(path.join(__dirname, "uploads/posts")));
+app.use("/menus", express.static(path.join(__dirname, "uploads/menus")));
 
 // routers
 app.use("/api/swagger", swaggerUi.serve, swaggerSetup);
 app.use("/auth", authRoute);
 app.use("/family", familyRoute);
 app.use("/post", postRoute);
+app.use("/menu", menuRoute);
 
 app.get("/", (req, res) => res.send("server is running!"));
 

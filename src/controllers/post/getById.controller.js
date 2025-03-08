@@ -6,7 +6,7 @@ exports.GetByIdController = async (req, res) => {
     const [rows] = await db
       .promise()
       .query(
-        "SELECT * FROM posts WHERE JSON_UNQUOTE(JSON_EXTRACT(user, '$.id')) = ? ORDER BY created_at DESC",
+        "SELECT * FROM posts WHERE JSON_UNQUOTE(JSON_EXTRACT(user, '$.user_id')) = ? ORDER BY created_at DESC",
         [user_id]
       );
 

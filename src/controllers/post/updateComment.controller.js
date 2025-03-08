@@ -1,4 +1,3 @@
-const { request } = require("express");
 const { db } = require("../../config/database");
 
 exports.UpdateCommentController = async (req, res) => {

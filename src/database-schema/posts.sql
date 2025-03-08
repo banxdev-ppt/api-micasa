@@ -6,5 +6,6 @@ CREATE TABLE posts (
     post_images JSON NULL,
     post_likes JSON NULL,
     post_comments JSON NULL,
+    updated_at TIMESTAMP NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

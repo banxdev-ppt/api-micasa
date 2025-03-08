@@ -9,6 +9,7 @@ const authRoute = require("./routers/authRoute");
 const familyRoute = require("./routers/familyRoute.js");
 const postRoute = require("./routers/postRoute.js");
 const menuRoute = require("./routers/menuRoute.js");
+const activityRoute = require("./routers/activityRoute.js");
 
 const swaggerUi = require("swagger-ui-express");
 const { swaggerSetup } = require("./config/swagger/swagger.js");
@@ -38,6 +39,7 @@ app.use("/auth", authRoute);
 app.use("/family", familyRoute);
 app.use("/post", postRoute);
 app.use("/menu", menuRoute);
+app.use("/activity", activityRoute);
 
 app.get("/", (req, res) => res.send("server is running!"));
 

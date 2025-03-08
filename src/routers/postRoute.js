@@ -12,6 +12,9 @@ const {
 const {
   UpdateCommentController,
 } = require("../controllers/post/updateComment.controller");
+const {
+  DeletePostController,
+} = require("../controllers/post/delete.controller");
 
 const router = Router();
 const upload = uploadMiddleware().single("post_images");
@@ -24,8 +27,9 @@ router.post("/:post_id/like", UpdateLikeController);
 
 // post
 router.post("/create", upload, CreatePostController);
-router.post("/update", UpdateController);
-router.get("/:user_id", GetByIdController);
+router.post("/:post_id/update", upload, UpdateController);
+router.post("/delete/:post_id", DeletePostController);
+router.post("/:user_id", GetByIdController);
 router.post("/", GetAllController);
 
 module.exports = router;

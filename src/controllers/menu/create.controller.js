@@ -1,8 +1,7 @@
 const { db } = require("../../config/database");
-const { formatFilename } = require("../../helper/convertFilename");
+const { uploadFile, formatFilename } = require("../../helper/mangeFile");
 const path = require("path");
 const fs = require("fs");
-const { uploadFile } = require("../../helper/uploadFile");
 
 exports.CreateMenuController = async (req, res) => {
   try {

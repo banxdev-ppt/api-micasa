@@ -1,5 +1,4 @@
-const { formatFilename } = require("../../helper/convertFilename");
-const { uploadFile } = require("../../helper/uploadFile");
+const { uploadFile, formatFilename } = require("../../helper/mangeFile");
 const path = require("path");
 const fs = require("fs");
 const { db } = require("../../config/database");

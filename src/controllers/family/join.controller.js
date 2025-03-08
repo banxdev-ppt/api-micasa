@@ -27,7 +27,7 @@ exports.joinFamilyController = async (req, res) => {
 
     const query = `
       UPDATE families
-      SET famMember = JSON_ARRAY_APPEND(famMember, '$', JSON_OBJECT('usrId', ?, 'roleId', ?, 'nickName', ?, 'usrImg', ?))
+      SET famMember = JSON_ARRAY_APPEND(famMember, '$', JSON_OBJECT('id', ?, 'roleId', ?, 'nickName', ?, 'usrImg', ?))
       WHERE famCode = ?;
     `;
     const values = [usrId, roleId, nickName, usrImg, famCode];

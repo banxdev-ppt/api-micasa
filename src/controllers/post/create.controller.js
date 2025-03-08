@@ -1,8 +1,7 @@
-const { formatFilename } = require("../../helper/convertFilename");
+const { uploadFile, formatFilename } = require("../../helper/mangeFile");
 const { db } = require("../../config/database");
 const path = require("path");
 const fs = require("fs");
-const { uploadFile } = require("../../helper/uploadFile");
 
 exports.CreatePostController = async (req, res) => {
   try {
@@ -32,7 +31,7 @@ exports.CreatePostController = async (req, res) => {
     }
 
     const userData = JSON.stringify({
-      id: user_id,
+      user_id: user_id,
       user_name: user_name,
       user_profile: user_profile,
     });
